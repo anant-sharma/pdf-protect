@@ -5,14 +5,14 @@
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 import * as _ from 'lodash';
-import { jwtConfig, paths } from '../../config/config';
+import { authEnabled, jwtConfig, paths } from '../../config/config';
 
 export default (req: any, res: any, next ?: express.NextFunction) => {
 
     /**
      * If the requested path (req.path) is not an un-protected path
      */
-    if (! _.includes(paths.whitelisted, req.path)) {
+    if (authEnabled && ! _.includes(paths.whitelisted, req.path)) {
 
         let token;
 
