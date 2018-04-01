@@ -59,6 +59,7 @@ typings/
 
 # Distribution Folder
 dist/
+shelf/
 
 # IDE Folder
 .vscode
