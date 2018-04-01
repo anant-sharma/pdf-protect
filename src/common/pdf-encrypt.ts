@@ -7,6 +7,7 @@
  * Module Dependencies
  */
 import { spawn } from 'child_process';
+import { shelf } from '../config/config';
 
 export class PDF {
 
@@ -26,7 +27,6 @@ export class PDF {
                  * Get encryption parameters
                  */
                 const {
-                    filename,
                     password,
                     filePath,
                     outFilePath,
@@ -44,7 +44,12 @@ export class PDF {
                     outFilePath,
                 ];
 
-                const child = spawn('/bin/sh', ['-c', args.join(' ') + ' | cat']);
+                const child = spawn('/bin/sh', ['-c', args.join(' ') + ' | cat'], {
+                    cwd: shelf.directory,
+                    env: {
+                        LD_LIBRARY_PATH: '/usr/local/lib',
+                    },
+                });
 
                 child.stderr.on('error', (err) => {
                     console.error('Encryption Error : ' + err);

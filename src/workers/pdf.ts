@@ -89,7 +89,7 @@ export class PDFWorker {
                  * Acknowledge Msg
                  */
                 await ensureOnline();
-                // channel.ack(msg);
+                channel.ack(msg);
 
             } catch (e) {
                 logger.trace(e);
