@@ -22,7 +22,7 @@ export class PDFMaster {
         this.createChannel();
     }
 
-    public async enqueue(file: any) {
+    public async enqueue(data: any) {
 
         /**
          * Ensure active connection
@@ -32,7 +32,7 @@ export class PDFMaster {
         /**
          * Publish Message to Queue
          */
-        this.channel.sendToQueue(mqConfig.pdfQueue, new Buffer(JSON.stringify(file)), {
+        this.channel.sendToQueue(mqConfig.pdfQueue, new Buffer(JSON.stringify(data)), {
             persistent: true,
         });
 

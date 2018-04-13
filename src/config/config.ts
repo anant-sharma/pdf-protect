@@ -47,6 +47,14 @@ export const jwtConfig = {
 };
 
 /**
+ * Mail Settings
+ */
+export const mailConfig = {
+    privateKey: process.env.MJ_APIKEY_PRIVATE || '',
+    publicKey: process.env.MJ_APIKEY_PUBLIC || '',
+};
+
+/**
  * MQ Config
  */
 export const mqConfig = {

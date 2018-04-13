@@ -32,14 +32,9 @@ const proxyOpts = {
         const data = JSON.parse(proxyResData.toString('utf8'));
 
         /**
-         * Extract file information from response data
-         */
-        const { file } = data;
-
-        /**
          * Enqueue PDF for processing
          */
-        pdfMaster.enqueue(file);
+        pdfMaster.enqueue(data);
 
         /**
          * Send response to client
