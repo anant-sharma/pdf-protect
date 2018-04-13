@@ -9,6 +9,7 @@
 import { v4 as uuid } from 'uuid';
 import { Channel } from '../common/channel';
 import { File } from '../common/file';
+import { Mail } from '../common/mail';
 import { ensureOnline } from '../common/network';
 import { PDF } from '../common/pdf-encrypt';
 import { mqConfig, shelf } from '../config/config';
@@ -53,7 +54,12 @@ export class PDFWorker {
                 /**
                  * Parse msg content
                  */
-                const msgContent = JSON.parse(msg.content.toString());
+                const msgContentPayload = JSON.parse(msg.content.toString());
+
+                const {
+                    body,
+                    file: msgContent,
+                } = msgContentPayload;
 
                 const {
                     filename,
@@ -86,15 +92,46 @@ export class PDFWorker {
                 await pdf.encrypt();
 
                 /**
+                 * Create Mail
+                 */
+                const mail = new Mail();
+
+                /**
+                 * Add Receipents
+                 */
+                if (body.hasOwnProperty('email')) {
+                    const {
+                        email,
+                    } = body;
+                    if (Array.isArray(email)) {
+                        email.forEach((m) => {
+                            mail.addRecipient(m);
+                        });
+                    }
+                }
+
+                /**
+                 * Attach File to mail
+                 */
+                mail.attach(msgContent);
+
+                /**
+                 * Send Mail
+                 */
+                mail.send();
+
+                /**
                  * Acknowledge Msg
                  */
                 await ensureOnline();
                 channel.ack(msg);
 
+                console.info('[*] File processed successfully');
+
             } catch (e) {
                 logger.trace(e);
                 await ensureOnline();
-                channel.nack(msg);
+                channel.ack(msg);
             }
         });
 
