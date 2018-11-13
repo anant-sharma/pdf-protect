@@ -21,7 +21,7 @@ export const authEnabled = false;
  * DB Connection
  */
 export const dbConfig = {
-    connectionString: process.env.dbConnectionString || '',
+    connectionString: process.env.dbConnectionString || 'mongodb://localhost:27017/pdf-protect?authSource=admin',
     // connectionString: `mongodb://<username>:<password>@chipserver.ml:27017/fleet-management?authSource=admin`,
 };
 
@@ -50,15 +50,15 @@ export const jwtConfig = {
  * Mail Settings
  */
 export const mailConfig = {
-    privateKey: process.env.MJ_APIKEY_PRIVATE || '',
-    publicKey: process.env.MJ_APIKEY_PUBLIC || '',
+    privateKey: process.env.MJ_APIKEY_PRIVATE || '4518abdab189c8b4108dcf996ab10a2a',
+    publicKey: process.env.MJ_APIKEY_PUBLIC || '8b5a1352ab5eaa8fda16b721b054e8f7',
 };
 
 /**
  * MQ Config
  */
 export const mqConfig = {
-    connectionString: process.env.mqConnectionString || '',
+    connectionString: process.env.mqConnectionString || 'amqp://admin:admin@localhost:5672?heartbeat=30',
     pdfQueue: 'pdf-protect-queue',
     // connectionString: 'amqp://<username>:<password>@chipserver.ml:5672?heartbeat=30',
 };
